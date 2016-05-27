@@ -1,4 +1,4 @@
-$fn = 100;
+$fn = 100;  // degree of rendering detail
 
 widthTopCheek = 163; // y
 widthBottomCheek = 114; // y
@@ -7,8 +7,18 @@ depthTopCheek = 36; // x
 depthBottomCheek = 48; // x
 boltSocketDepth = 13.5;
 boltSocketDiameter = 9.5;
-diameterRod = 12; // Halterungsstangen + Rundungen
+diameterRod = 12; // roundings
 radiusRod = 6;
+rightangle = 90;
+
+module basicBlock(widthTop, widthBottom, height, depthTop, depthBottom, boldSocketDepth, boldSocketDiameter, radius) {
+    hull() {    // main block from which everything will be cut off/out
+        translate([0, 0, height]) rotate([rightangle, 0, 0]) cylinder(widthTop, d = radius * 2);   // rounded corner (for the cheek)
+        translate([-12, -((widthTop - widthBottom) / 2), 0]) rotate([rightangle, 0, 0]) cylinder(widthBottom, d = radius * 2);
+        translate([depthTop, -((widthTop - widthBottom) / 2), 0]) rotate([rightangle, 0, 0]) cylinder(widthBottom, d = radius * 2);
+        translate([depthTop, 0, height]) rotate([rightangle, 0, 0]) cylinder(widthTop, d = radius * 2);
+    }
+}
 
 rotate([0, 180, 0]) {   // preparing for printing (better this way)
     difference() {
@@ -44,40 +54,3 @@ rotate([0, 180, 0]) {   // preparing for printing (better this way)
         translate([-20,0, heightCheek + radiusRod]) rotate([-127,0,0]) cube([depthTopCheek * 1.8, heightCheek * 1.6, 10]);
     }
 }
-
-height = 74;  // z
-width = 156;  // y
-depth = 25.3; // x
-
-//difference() {
-//    difference() {
-//        cube([depth, width, height]);
-//        translate([(radiusRod + 11), (60 + radiusRod), -5]) cylinder(80, d = diameterRod);
-//        translate([(radiusRod + 11), (89 + radiusRod), -5]) cylinder(80, d = diameterRod);
-//    }
-//
-//    translate([0, 28, 30]) union(){
-//        hull(){
-//            translate([-3, 0, 0]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//            translate([-3, 80, 0]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//            translate([-3, -15, 23]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//            translate([-3, 105, 39]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//        }
-//        hull(){
-//            translate([-3, -12, 23]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//            translate([-3, -30, 23]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//            translate([-3, -30, 60]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//        }
-//        hull(){
-//            translate([-3, 102, 39]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//            translate([-3, 120, 39]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//            translate([-3, 128, 52]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//        }
-//        hull(){
-//            translate([-3, -12, 23]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//            translate([-3, -20, 43]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//            translate([-3, 122, 52]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//            translate([-3, 102, 39]) rotate([0, 90, 0]) cylinder(depth + 5, d = 6);
-//        }
-//    }
-//}
