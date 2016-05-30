@@ -1,12 +1,21 @@
 $fn = 100;  // degree of rendering detail
 
 rightangle = 90;
-socketDistance = 56.5;
 
-rotate([0, 180, 0]) {
+rotate([0, 2 * rightangle, 0]) {   // rotate for better printing
     cheekpiece(163, 114, 30, 36, 6, 13, 9.5);
 }
 
+/*
+ * This is the basic block shape/object from which the
+ * cheek piece will be carved out with boolean operations.
+ *
+ * @param widthTop Length of the whole cheek piece (y-axis).
+ * @param widthBottom Length of the bottom part (shorter -> slanted angle).
+ * @param height Height of the cheek piece (z-axis).
+ * @param depthTop Depth/Width of the cheek piece (x-axis).
+ * @param radius Roundness of the cheek's resting place.
+ */
 module basicBlock(widthTop, widthBottom, height, depthTop, radius) {
     hull() {
         // top rounded corner for the cheek
@@ -14,6 +23,7 @@ module basicBlock(widthTop, widthBottom, height, depthTop, radius) {
             rotate([rightangle, 0, 0])
                 cylinder(widthTop, d = radius * 2);
         // bottom of the slanted side
+        // TODO replace the magic number 12 (for the slanted angle of the piece)
         translate([-12, -((widthTop - widthBottom) / 2), 0])
             rotate([rightangle, 0, 0])
                 cylinder(widthBottom, d = radius * 2);
@@ -28,9 +38,21 @@ module basicBlock(widthTop, widthBottom, height, depthTop, radius) {
     }
 }
 
-
+/*
+ * The complete, parameterized cheek piece.
+ *
+ * @param widthTop Length of the whole cheek piece (y-axis).
+ * @param widthBottom Length of the bottom part (shorter -> slanted angle).
+ * @param height Height of the cheek piece (z-axis).
+ * @param depthTop Depth/Width of the cheek piece (x-axis).
+ * @param radius Roundness of the cheek's resting place
+ * @param boltSocketDepth Depth of the bolt socket.
+ * @param boltSocketDiameter Diameter of the bolt socket.
+ */
 module cheekpiece(widthTop, widthBottom, height, depthTop, radius, boltSocketDepth, boltSocketDiameter) {
     thicknessTopMiddle = 17;
+    thicknessTopSides = 6;
+    socketDistance = 56.5;
     sideAngle = (rightangle * 2) - atan(height / ((widthTop - widthBottom) / 2));
 
     difference() {
@@ -40,10 +62,11 @@ module cheekpiece(widthTop, widthBottom, height, depthTop, radius, boltSocketDep
         translate([2, 0, -thicknessTopMiddle])
             basicBlock(widthTop, widthBottom, height, depthTop + radius, radius);
         // back
-        translate([6.4, widthTop - 30, -6])
+        // TODO replace magic numbers (6.4 -> depends on the angle (see number 12 from above))
+        translate([6.4, widthTop - 30, -thicknessTopSides])
             basicBlock(widthTop + 2, widthTop + 2, height, depthTop + radius, radius);
         // front
-        translate([6.4, -widthTop + 30, -6])
+        translate([6.4, -widthTop + 30, -thicknessTopSides])
             basicBlock(widthTop + 2, widthTop + 2, height, depthTop + radius, radius);
         // 1st socket
         translate([20, -46, (height + radius) - thicknessTopMiddle - 0.1])
