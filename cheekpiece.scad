@@ -24,7 +24,7 @@ module basicBlock(widthTop, widthBottom, height, depthTop, radius) {
                 cylinder(widthTop, d = radius * 2);
         // bottom of the slanted side
         // TODO replace the magic number 12 (for the slanted angle of the piece)
-        translate([-12, -((widthTop - widthBottom) / 2), 0])
+        translate([-8, -((widthTop - widthBottom) / 2), 0])
             rotate([rightangle, 0, 0])
                 cylinder(widthBottom, d = radius * 2);
         // bottom of the straight side
@@ -63,10 +63,10 @@ module cheekpiece(widthTop, widthBottom, height, depthTop, radius, boltSocketDep
             basicBlock(widthTop, widthBottom, height, depthTop + radius, radius);
         // back
         // TODO replace magic numbers (6.4 -> depends on the angle (see number 12 from above))
-        translate([6.4, widthTop - 30, -thicknessTopSides])
+        translate([4.94, widthTop - 30, -thicknessTopSides])
             basicBlock(widthTop + 2, widthTop + 2, height, depthTop + radius, radius);
         // front
-        translate([6.4, -widthTop + 30, -thicknessTopSides])
+        translate([4.94, -widthTop + 30, -thicknessTopSides])
             basicBlock(widthTop + 2, widthTop + 2, height, depthTop + radius, radius);
         // 1st socket
         translate([20, -46, (height + radius) - thicknessTopMiddle - 0.1])
@@ -93,6 +93,9 @@ module cheekpiece(widthTop, widthBottom, height, depthTop, radius, boltSocketDep
             rotate([-sideAngle, 0, 0])
                 cube([depthTop * 1.8, height * 1.6, 10]);
     }
+translate([0, 5, 30]) cube([depthTop, 5, radius]);
+translate([0, -173, 30]) cube([depthTop, 5, radius]);
+
 }
 
 
