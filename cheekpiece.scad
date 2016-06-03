@@ -93,9 +93,9 @@ module cheekpiece(widthTop, widthBottom, height, depthTop, radius, boltSocketDep
             rotate([-sideAngle, 0, 0])
                 cube([depthTop * 1.8, height * 1.6, 10]);
     }
-translate([0, 5, 30]) cube([depthTop, 5, radius]);
-translate([0, -173, 30]) cube([depthTop, 5, radius]);
 
+    translate([0, 5, 30]) cube([depthTop, 5, radius]);
+    translate([0, -173, 30]) cube([depthTop, 5, radius]);
 }
 
 
