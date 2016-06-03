@@ -2,7 +2,7 @@ $fn = 100;  // degree of rendering detail
 
 rightangle = 90;
 
-rotate([0, 2 * rightangle, 0]) {   // rotate for better printing
+rotate([0, 2 * rightangle, 90]) {   // rotate for better printing
     cheekpiece(163, 114, 30, 36, 6, 13, 9.5);
 }
 
@@ -94,8 +94,10 @@ module cheekpiece(widthTop, widthBottom, height, depthTop, radius, boltSocketDep
                 cube([depthTop * 1.8, height * 1.6, 10]);
     }
 
-    translate([0, 5, 30]) cube([depthTop, 5, radius]);
-    translate([0, -173, 30]) cube([depthTop, 5, radius]);
+    translate([-10, 5, 30]) cube([depthTop + 20, 5, radius]);
+    translate([-10, -173, 30]) cube([depthTop + 20, 5, radius]);
+    translate([-15, -173, 30]) rotate([0,0,90]) cube([183, 5, radius]);
+    translate([56, -173, 30]) rotate([0,0,90]) cube([183, 5, radius]);
 }
 
 
